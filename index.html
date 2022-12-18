@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<style>
+		body {
+			margin: 0;
+			background-color: rgb(147, 219, 224);
+			
+		}
+
+		#ip {
+			width: 200px;
+			height: 200px;
+		}
+
+		#container {
+			display: flex;
+			justify-content: center;
+			width: 100%;
+
+		}
+		#header {
+			background-color: rgb(75, 58, 58);
+			color: white;
+			height: 50px;
+			text-align: center;
+			font-size: 45px;
+		}
+
+		#workarea {
+			background-color: wheat;
+			margin-top: 10px;
+			width: 350px;
+			height: 500px;
+			border-radius: 8px;
+			text-align: center;
+			padding-top: 10px;
+			box-shadow: 4px 4px 4px 0px red;
+		}
+		textarea{
+			margin-top: 10px;
+		}
+		select{
+			border-radius: 5px;
+			border:2px solid red ;
+            color: red;
+		}
+		option{
+            color: black;
+		}
+		#submit{
+			margin-top: 5px;
+			background-color: white ;
+			border:2px solid red ;
+			border-radius: 10px;
+            color: red;
+			font-size: 18px;
+
+		}
+		#submit:hover,select:hover{
+			background-color: red ;
+            color: white;
+
+		}
+		select:hover option{
+			background-color: rgb(255, 255, 255) ;
+            color: rgb(0, 0, 0);
+
+		}
+		@media screen and (max-width:400px) {
+			#workarea {
+			width: 300px;
+			height: 550px;
+
+		}
+		}
+
+
+	</style>
+</head>
+
+<body>
+
+	<div>
+		<div id="header">Textovoice</div>
+		<div id="container">
+			<div id="workarea">
+				<select id="voice">
+			<option value="1">Select language</option>
+			<option value="2">English(India)(Male)</option>
+			<option value="3">English(India)(Female)</option>
+			<option value="4">English(US)(Male)</option>
+			<option value="5">English(US)(Female)</option>
+			<option value="6">hindi(Male)</option>
+			<option value="7">hindi(Femle)</option>
+			<option value="8">Tamil</option>
+			</select>
+			<select id="speed">
+				<option value="0">Speed</option>
+				<option value="-10">-10</option>
+				<option value="-7.5">-7.5</option>
+				<option value="-5">-5</option>
+				<option value="-2.5">-2.5</option>
+				<option value="0" >0</option>
+                <option value="2.5">2.5</option>
+                <option value="5">5</option>
+                <option value="7.5">7.5</option>
+				<option value="10">10</option>
+				
+				</select>
+				<textarea  type="text" id="ip" rows="4" cols="50"></textarea><br>
+				<button type="submit" id="submit">Convert</button>
+				<div id="go"></div>
+			</div>
+		</div>
+
+	</div>
+
+</body>
+
+
+<script src="jquary.js"></script>
+<script>
+	$(document).ready(function () {
+		$("#submit").click(function (e) {
+			var lang = "en-us";
+			var voice ="John";
+			var spd=0;
+			var inpval = document.getElementById("voice").value;
+			if (inpval==2) {
+		       lang = "en-in";
+			 voice ="Ajit";
+			}else if (inpval==3) {
+		       lang = "en-in";
+			 voice ="Eka";
+			}else if (inpval==4) {
+		       lang = "en-us";
+			 voice ="John";
+			}else if (inpval==5) {
+		       lang = "en-us";
+			 voice ="Linda";
+			}else if (inpval==6) {
+		       lang = "hi-in";
+			 voice ="Kabir";
+			}else if (inpval==7) {
+		       lang = "en-in";
+			 voice ="Puja";
+			}else if (inpval==8) {
+		       lang = "ta-in";
+			 voice ="Sai";
+			}
+			inpval = document.getElementById("speed").value;
+
+			
+			var inputval = document.getElementById("ip").value;
+			$.ajax({
+				"async": true,
+				"crossDomain": true,
+				"url": "https://voicerss-text-to-speech.p.rapidapi.com/?key=906f372ff769441abe7614dc3f93ad27&src=" + inputval + "&hl="+lang+"&r="+inputval+"&c=mp3&f=8khz_8bit_mono&b64=true&v="+voice,
+
+				"method": "GET",
+				"headers": {
+					"X-RapidAPI-Key": "2d5d0ad554msh4d5a5b709fd942fp148299jsne620d34672e5",
+					"X-RapidAPI-Host": "voicerss-text-to-speech.p.rapidapi.com"
+				},
+				success: function (data) {
+					document.getElementById("go").innerHTML = '<audio controls><source src="' + data + '" type="audio/mpeg">Your browser does not support the audio tag</audio>';
+					console.log(data);
+				}
+
+
+			});
+		});
+	});
+</script>
+
+</html>
